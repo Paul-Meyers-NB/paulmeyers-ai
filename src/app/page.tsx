@@ -5,6 +5,9 @@ import { AiHeroBackground } from '@/components/ui/ai-hero-background';
 import GradientText from '@/components/ui/gradient-text';
 import { BentoGrid, BentoCard } from '@/components/ui/bento-grid';
 
+const ASSESSMENT_CHECKOUT_URL = 'https://buy.stripe.com/8x27sM5BF3N6eO93CF0Fi08';
+const QUIZ_URL = '/quiz';
+
 function PhoneIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -45,14 +48,6 @@ function DatabaseIcon({ className }: { className?: string }) {
   );
 }
 
-function ShieldIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-    </svg>
-  );
-}
-
 function CpuIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -69,6 +64,54 @@ function CheckIcon({ className }: { className?: string }) {
   );
 }
 
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  );
+}
+
+function DocumentIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+    </svg>
+  );
+}
+
+function CalendarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+    </svg>
+  );
+}
+
+function ChartIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+    </svg>
+  );
+}
+
+function GridIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+    </svg>
+  );
+}
+
+function ClockIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
+
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden">
@@ -81,46 +124,54 @@ export default function Home() {
           <div className="opacity-0 animate-fade-in-up mb-8">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-mono">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              Available for projects
+              AI Audit for Contractors
             </span>
           </div>
 
           {/* Main heading */}
-          <h1 className="opacity-0 animate-fade-in-up animation-delay-200 text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6">
+          <h1 className="opacity-0 animate-fade-in-up animation-delay-200 text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.05]">
+            Reclaim{" "}
             <GradientText
               colors={["#3b82f6", "#8b5cf6", "#06b6d4", "#3b82f6"]}
               animationSpeed={6}
-              className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight"
+              className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight"
             >
-              Paul Meyers
+              10 hours a week
             </GradientText>
+            .<br />Never miss another lead.
           </h1>
 
-          {/* Subtitle */}
-          <p className="opacity-0 animate-fade-in-up animation-delay-400 text-xl md:text-2xl text-gray-400 mb-4 font-light">
-            AI Solutions Architect
-          </p>
-
-          <p className="opacity-0 animate-fade-in-up animation-delay-600 text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-12">
-            I build AI systems that answer your phones, chat with your website visitors,
-            and book appointments — so you never miss a lead.
+          <p className="opacity-0 animate-fade-in-up animation-delay-400 text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+            A 45-minute AI audit built for contractors. We map your biggest time leaks
+            and missed revenue, then hand you a custom report with a 4-day plan to
+            fix them. Delivered in 48 hours.
           </p>
 
           {/* CTA Buttons */}
-          <div className="opacity-0 animate-fade-in-up animation-delay-800 flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="opacity-0 animate-fade-in-up animation-delay-600 flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="#demo"
+              href={ASSESSMENT_CHECKOUT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all duration-300 animate-pulse-glow"
             >
-              Try a Live Demo
+              Get Your $997 Assessment
             </a>
             <a
-              href="#services"
+              href={QUIZ_URL}
               className="px-8 py-4 rounded-xl bg-gray-800/50 hover:bg-gray-700/50 text-gray-300 border border-gray-700 hover:border-gray-600 font-semibold transition-all duration-300"
             >
-              See What I Build
+              Take the Free 2-Min Quiz
             </a>
           </div>
+
+          <p className="opacity-0 animate-fade-in-up animation-delay-800 text-gray-500 text-sm mt-8 font-mono">
+            45-min call. Custom report in 48 hrs. Or{' '}
+            <a href="#demo" className="text-blue-400 hover:text-blue-300 transition-colors underline underline-offset-4">
+              try the live AI phone demo
+            </a>
+            .
+          </p>
         </div>
 
         {/* Scroll indicator */}
@@ -131,22 +182,199 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services / What I Build */}
-      <section id="services" className="relative py-24 px-6">
+      {/* 3-Step Ladder */}
+      <section className="relative py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-blue-400 font-mono text-sm mb-4 tracking-wider uppercase">
-              What I Build
+              How It Works
             </p>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              AI That Works{" "}
+              From AI to ROI in{" "}
               <GradientText className="text-4xl md:text-5xl font-bold">
-                While You Sleep
+                3 Simple Steps
+              </GradientText>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                step: "01",
+                title: "Book & Intake",
+                Icon: CalendarIcon,
+                body: "Book your $997 AI Audit and complete a quick pre-call questionnaire covering your current tools, biggest time sinks, and lead flow. We hit the ground running.",
+              },
+              {
+                step: "02",
+                title: "45-Minute Live Call",
+                Icon: PhoneIcon,
+                body: "Zoom call where we dig into your actual workflows. Missed calls, slow follow-up, estimate bottlenecks, dead database, admin drag. We surface the hidden time drains you've stopped noticing.",
+              },
+              {
+                step: "03",
+                title: "Custom Report in 48 Hrs",
+                Icon: DocumentIcon,
+                body: "Personalized roadmap delivered to your inbox. Impact-effort matrix, 4 quick wins you can install this week, a 4-day plan, and the dollar value of what we're recovering.",
+              },
+            ].map(({ step, title, Icon, body }) => (
+              <div
+                key={step}
+                className="relative rounded-2xl bg-gray-900/50 border border-gray-800/50 backdrop-blur-sm p-8 hover:border-blue-500/30 transition-all duration-500"
+              >
+                <div className="flex items-center gap-4 mb-5">
+                  <span className="text-blue-400 font-mono text-sm tracking-wider">{step}</span>
+                  <div className="h-px flex-1 bg-gray-800" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20">
+                    <Icon className="h-5 w-5 text-blue-400" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* What You Get */}
+      <section className="relative py-24 px-6 border-t border-gray-800/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-blue-400 font-mono text-sm mb-4 tracking-wider uppercase">
+              What You Get
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              A Custom Report That Pays for Itself in{" "}
+              <GradientText className="text-4xl md:text-5xl font-bold">
+                Week One
               </GradientText>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-              Every missed call is a missed customer. I build AI systems that ensure you never
-              lose another lead — 24 hours a day, 7 days a week.
+              Not another generic &ldquo;Top 10 AI Tools&rdquo; listicle. A personalized
+              implementation plan built around your specific workflows, your team, and your pain points.
+            </p>
+          </div>
+
+          <BentoGrid className="lg:grid-cols-3 auto-rows-auto md:auto-rows-[18rem]">
+            <BentoCard
+              name="Impact vs. Effort Matrix"
+              Icon={GridIcon}
+              description="Every opportunity in your business mapped on a 2x2: Quick Wins, Major Projects, Fill-ins, and Ignore. You know exactly where to start."
+            />
+            <BentoCard
+              name="4 Quick Wins"
+              Icon={BoltIcon}
+              description="The specific AI tools that solve YOUR problems. Each with pain it solves, complexity, monthly cost, setup time, and hours saved per week."
+            />
+            <BentoCard
+              name="4-Day Implementation Plan"
+              Icon={CalendarIcon}
+              description="Day-by-day execution schedule. Simple, step-by-step instructions. No technical background required."
+            />
+            <BentoCard
+              name="Financial Impact Summary"
+              Icon={ChartIcon}
+              description="Weekly time returned x hourly rate. Monthly net ROI after tool costs. Clear, defensible numbers you can take to your bookkeeper."
+            />
+            <BentoCard
+              name="Roadmap for What Comes Next"
+              Icon={DocumentIcon}
+              description="The bigger wins beyond Quick Wins. Missed-call recovery, speed-to-lead, database reactivation, reviews on autopilot. Your upgrade path."
+            />
+            <BentoCard
+              name="30-Minute Review Call"
+              Icon={ClockIcon}
+              description="I walk you through the report slide-by-slide. Answer questions. Flag which quick wins to install first. Set you up to execute."
+            />
+          </BentoGrid>
+        </div>
+      </section>
+
+      {/* Who it's for / Not for */}
+      <section className="relative py-24 px-6 border-t border-gray-800/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-blue-400 font-mono text-sm mb-4 tracking-wider uppercase">
+              Who This Is For
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Is This a{" "}
+              <GradientText className="text-4xl md:text-5xl font-bold">
+                Fit for You
+              </GradientText>
+              ?
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="rounded-2xl bg-gray-900/50 border border-green-500/20 p-8">
+              <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/10 border border-green-500/30">
+                  <CheckIcon className="h-5 w-5 text-green-400" />
+                </div>
+                This is for you if&hellip;
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  "You run a $1M-$5M home service or trades business (plumbing, HVAC, electrical, cleaning, landscaping, roofing, painting)",
+                  "You're tired of missing calls and losing leads to voicemail",
+                  "You're drowning in follow-up, quoting, and admin work that should take minutes",
+                  "You've dabbled with ChatGPT but don't have a real system",
+                  "You're willing to spend 30-60 minutes installing a tool to save 10 hours a week",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-gray-300 text-sm leading-relaxed">
+                    <CheckIcon className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-2xl bg-gray-900/50 border border-red-500/20 p-8">
+              <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/10 border border-red-500/30">
+                  <XIcon className="h-5 w-5 text-red-400" />
+                </div>
+                This is NOT for you if&hellip;
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  "You want someone to &ldquo;do it all for you&rdquo; while you stay hands-off",
+                  "You're pre-revenue without real processes to optimize",
+                  "You won't invest 30-60 minutes learning a tool to save 10 hours a week",
+                  "You're looking for a magic button, not a realistic roadmap",
+                  "You want another tutorial. This is a report + a plan, not a course.",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-gray-300 text-sm leading-relaxed">
+                    <XIcon className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
+                    <span dangerouslySetInnerHTML={{ __html: item }} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What Comes After Quick Wins (re-framed services) */}
+      <section id="services" className="relative py-24 px-6 border-t border-gray-800/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-blue-400 font-mono text-sm mb-4 tracking-wider uppercase">
+              What Comes After Quick Wins
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              The{" "}
+              <GradientText className="text-4xl md:text-5xl font-bold">
+                5-Pillar AI Employee
+              </GradientText>{" "}
+              Stack
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+              Quick wins are the first 4 days. When you&apos;re ready for systems that answer
+              phones, chat with visitors, and reactivate your database on autopilot, this
+              is the upgrade path your audit maps to.
             </p>
           </div>
 
@@ -196,7 +424,7 @@ export default function Home() {
       </section>
 
       {/* Live Demo Section */}
-      <section id="demo" className="relative py-24 px-6">
+      <section id="demo" className="relative py-24 px-6 border-t border-gray-800/50">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-blue-400 font-mono text-sm mb-4 tracking-wider uppercase">
             Try It Yourself
@@ -238,7 +466,7 @@ export default function Home() {
       </section>
 
       {/* Meet Paul Meyers - About Section */}
-      <section id="about" className="relative py-24 px-6">
+      <section id="about" className="relative py-24 px-6 border-t border-gray-800/50">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             {/* Photo side */}
@@ -270,7 +498,7 @@ export default function Home() {
 
               <div className="space-y-5 text-gray-400 leading-relaxed">
                 <p>
-                  I&apos;ve spent over 15 years helping businesses stop chasing leads and
+                  I&apos;ve spent over 15 years helping contractors stop chasing leads and
                   start attracting them. After building and scaling multiple businesses,
                   I discovered what actually works: <strong className="text-white">systems that
                   convert strangers into paying customers.</strong>
@@ -283,9 +511,9 @@ export default function Home() {
                   AI employees that work 24/7.
                 </p>
                 <p>
-                  <strong className="text-white">I don&apos;t just set up software.</strong> I architect
-                  complete AI systems — from lead capture to conversion to operations — that
-                  make your business run smarter, faster, and without dropping the ball.
+                  <strong className="text-white">I don&apos;t just recommend tools.</strong> I audit
+                  your business, hand you the 4 quick wins you can install this week, and
+                  then architect the full AI system if you want to go deeper. No fluff.
                 </p>
               </div>
 
@@ -295,7 +523,7 @@ export default function Home() {
                   "15+ Years Experience",
                   "North Bay, ON Based",
                   "AI & LLM Expert",
-                  "No Long-Term Contracts",
+                  "Contractor Niche Focus",
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-3">
                     <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center">
@@ -314,10 +542,10 @@ export default function Home() {
       <section className="py-16 px-6 border-y border-gray-800/50">
         <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { number: "24/7", label: "AI Availability" },
-            { number: "<60s", label: "Lead Response Time" },
-            { number: "100%", label: "Calls Answered" },
-            { number: "0", label: "Leads Lost" },
+            { number: "48hr", label: "Report Turnaround" },
+            { number: "10+", label: "Hours Reclaimed / Week" },
+            { number: "4", label: "Quick Wins You Can Install" },
+            { number: "$997", label: "Flat Fee. No Upsell Trap." },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -332,31 +560,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Final CTA Section */}
       <section className="relative py-24 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Put{" "}
+            Your Next 45 Minutes Could Save You{" "}
             <GradientText className="text-4xl md:text-5xl font-bold">
-              AI to Work
+              10 Hours Every Week
             </GradientText>
-            ?
           </h2>
           <p className="text-gray-400 text-lg mb-12 max-w-xl mx-auto">
-            I&apos;ll build a free, personalized AI demo for your business.
-            Your company name, your services, your voice. Book a quick call and let&apos;s talk.
+            Book your $997 AI Audit. 45-minute call, custom report in 48 hours, 30-minute
+            review call to walk you through it. Built specifically for contractors.
           </p>
           <a
-            href="https://api.leadconnectorhq.com/widget/booking/z6ZfrQILqiGHcMfwmUCO"
+            href={ASSESSMENT_CHECKOUT_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-10 py-5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-lg font-semibold transition-all duration-300 animate-pulse-glow"
           >
-            Book a Free Discovery Call
+            Get Your $997 Assessment
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </a>
+          <p className="text-gray-500 text-sm mt-6 font-mono">
+            For contractors doing $1M-$5M. Not sure yet?{' '}
+            <a href={QUIZ_URL} className="text-blue-400 hover:text-blue-300 transition-colors underline underline-offset-4">
+              Take the free 2-minute quiz first
+            </a>
+            .
+          </p>
         </div>
       </section>
 
