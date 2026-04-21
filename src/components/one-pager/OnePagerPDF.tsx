@@ -5,6 +5,9 @@ import {
   Text,
   Image,
   Link,
+  Svg,
+  Path,
+  Circle,
   StyleSheet,
 } from '@react-pdf/renderer';
 import type { OnePagerData } from '@/lib/one-pager-data';
@@ -303,12 +306,63 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: colors.gray,
   },
+  videoBlock: {
+    marginTop: 14,
+    marginBottom: 6,
+  },
+  videoLabel: {
+    fontFamily: 'Helvetica-Bold',
+    fontSize: 8,
+    color: colors.black,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginBottom: 6,
+  },
+  videoLink: {
+    textDecoration: 'none',
+    alignSelf: 'flex-start',
+  },
+  videoFrame: {
+    position: 'relative',
+    width: 280,
+    height: 157,
+    borderRadius: 6,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: colors.black,
+  },
+  videoImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
+  videoOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  videoCaption: {
+    fontFamily: 'Helvetica-Bold',
+    fontSize: 10,
+    color: colors.black,
+    marginTop: 6,
+  },
+  videoSubcaption: {
+    fontSize: 8,
+    color: colors.gray,
+    marginTop: 2,
+  },
 });
 
 type Props = {
   data: OnePagerData;
   logoSrc: string;
   headshotSrc?: string;
+  videoThumbSrc?: string;
 };
 
 function Header({ name, logoSrc }: { name: string; logoSrc: string }) {
@@ -491,7 +545,7 @@ function GainsPage({ data, logoSrc }: Props) {
   );
 }
 
-function TopsPage({ data, logoSrc }: Props) {
+function TopsPage({ data, logoSrc, videoThumbSrc }: Props) {
   const socialOrder: Array<{ key: 'facebook' | 'instagram' | 'tiktok' | 'youtube' | 'linkedin' | 'x'; label: string }> = [
     { key: 'facebook', label: 'Facebook' },
     { key: 'instagram', label: 'Instagram' },
@@ -532,6 +586,26 @@ function TopsPage({ data, logoSrc }: Props) {
         <Text style={styles.topsLabel}>Favorite BNI Story</Text>
         <Text style={styles.topsValue}>{data.tops.favoriteBniStory}</Text>
       </View>
+
+      {data.video && videoThumbSrc ? (
+        <View style={styles.videoBlock}>
+          <Text style={styles.videoLabel}>Watch the 60-Second BNI Intro</Text>
+          <Link src={data.video.url} style={styles.videoLink}>
+            <View style={styles.videoFrame}>
+              <Image style={styles.videoImage} src={videoThumbSrc} />
+              <View style={styles.videoOverlay}>
+                <Svg width={56} height={56} viewBox="0 0 56 56">
+                  <Circle cx={28} cy={28} r={28} fill="#0B0F19" fillOpacity={0.75} />
+                  <Circle cx={28} cy={28} r={26} fill="none" stroke="#FFFFFF" strokeWidth={1.5} />
+                  <Path d="M 22 17 L 40 28 L 22 39 Z" fill="#FFFFFF" />
+                </Svg>
+              </View>
+            </View>
+            <Text style={styles.videoCaption}>{data.video.title}</Text>
+            <Text style={styles.videoSubcaption}>{data.video.url}</Text>
+          </Link>
+        </View>
+      ) : null}
 
       <View style={styles.contactFooterBlock}>
         {data.websites && data.websites.length > 0 ? (
@@ -575,7 +649,7 @@ function TopsPage({ data, logoSrc }: Props) {
   );
 }
 
-export function OnePagerPDF({ data, logoSrc, headshotSrc }: Props) {
+export function OnePagerPDF({ data, logoSrc, headshotSrc, videoThumbSrc }: Props) {
   return (
     <Document
       title={`${data.name} BNI One-Pager`}
@@ -584,7 +658,7 @@ export function OnePagerPDF({ data, logoSrc, headshotSrc }: Props) {
     >
       <PersonalBioPage data={data} logoSrc={logoSrc} headshotSrc={headshotSrc} />
       <GainsPage data={data} logoSrc={logoSrc} />
-      <TopsPage data={data} logoSrc={logoSrc} />
+      <TopsPage data={data} logoSrc={logoSrc} videoThumbSrc={videoThumbSrc} />
     </Document>
   );
 }

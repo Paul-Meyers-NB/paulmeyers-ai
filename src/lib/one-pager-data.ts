@@ -38,6 +38,10 @@ export type OnePagerData = {
     linkedin?: string;
     x?: string;
   };
+  video?: {
+    url: string;
+    title: string;
+  };
 };
 
 export const PAUL_ONE_PAGER: OnePagerData = {
@@ -124,5 +128,9 @@ export const PAUL_ONE_PAGER: OnePagerData = {
     youtube: 'https://www.youtube.com/@PAULMEYERSNorthBay',
     linkedin: 'https://www.linkedin.com/in/paulmeyersnorthbay/',
     x: 'https://x.com/paulmeyersnb',
+  },
+  video: {
+    url: 'https://youtu.be/svWH2Qy9ij8',
+    title: 'Watch My 60-Second BNI Intro',
   },
 };
