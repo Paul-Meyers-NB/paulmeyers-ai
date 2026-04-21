@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { AiHeroBackground } from '@/components/ui/ai-hero-background';
 import GradientText from '@/components/ui/gradient-text';
-import { QUIZ_QUESTIONS, isDisqualified, type QuizAnswers } from '@/lib/quiz-data';
+import { QUIZ_QUESTIONS, type QuizAnswers } from '@/lib/quiz-data';
 
 const STRIPE_LINK = 'https://buy.stripe.com/8x27sM5BF3N6eO93CF0Fi08';
 const EXIT_INTENT_STORAGE_KEY = 'paulmeyers_quiz_exit_shown_v1';
@@ -11,10 +11,7 @@ const EXIT_INTENT_STORAGE_KEY = 'paulmeyers_quiz_exit_shown_v1';
 type Step =
   | { kind: 'question'; index: number }
   | { kind: 'disqualified' }
-  | { kind: 'email' }
-  | { kind: 'submitting' }
-  | { kind: 'done' }
-  | { kind: 'error'; message: string };
+  | { kind: 'email' };
 
 export default function QuizPage() {
   const [step, setStep] = useState<Step>({ kind: 'question', index: 0 });
@@ -25,7 +22,6 @@ export default function QuizPage() {
   const [showExitPopup, setShowExitPopup] = useState(false);
   const exitShownRef = useRef(false);
 
-  // Exit-intent detection
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -37,7 +33,6 @@ export default function QuizPage() {
     const handleMouseLeave = (e: MouseEvent) => {
       if (exitShownRef.current) return;
       if (e.clientY > 0) return;
-      if (step.kind === 'done' || step.kind === 'submitting') return;
       if (step.kind === 'question' && step.index === 0 && !answers[QUIZ_QUESTIONS[0].id]) return;
 
       exitShownRef.current = true;
@@ -78,33 +73,7 @@ export default function QuizPage() {
     }
   }
 
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!firstName.trim() || !email.trim()) return;
-
-    setStep({ kind: 'submitting' });
-    try {
-      const res = await fetch('/api/quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName, lastName, email, answers }),
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setStep({ kind: 'error', message: data.error || 'Something went wrong.' });
-        return;
-      }
-      setStep({ kind: 'done' });
-    } catch {
-      setStep({ kind: 'error', message: 'Network error. Please try again.' });
-    }
-  }
-
   const totalSteps = QUIZ_QUESTIONS.length;
-  const currentStepNumber =
-    step.kind === 'question' ? step.index + 1 :
-    step.kind === 'email' ? totalSteps + 1 :
-    totalSteps + 1;
   const progressPct =
     step.kind === 'question'
       ? ((step.index + 1) / (totalSteps + 1)) * 100
@@ -136,7 +105,6 @@ export default function QuizPage() {
 
       <section className="relative z-10 flex-1 flex items-start justify-center px-6 pb-24">
         <div className="w-full max-w-3xl">
-          {/* Progress bar */}
           {(step.kind === 'question' || step.kind === 'email') && (
             <div className="mb-2">
               <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
@@ -164,38 +132,15 @@ export default function QuizPage() {
                 firstName={firstName}
                 lastName={lastName}
                 email={email}
+                answers={answers}
                 onFirstName={setFirstName}
                 onLastName={setLastName}
                 onEmail={setEmail}
                 onBack={goBack}
-                onSubmit={submit}
               />
             )}
 
-            {step.kind === 'submitting' && (
-              <div className="flex flex-col items-center justify-center py-24 gap-4">
-                <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                <p className="text-gray-400">Building your action plan...</p>
-              </div>
-            )}
-
-            {step.kind === 'done' && <DoneView firstName={firstName} />}
-
             {step.kind === 'disqualified' && <DisqualifiedView onBack={goBack} />}
-
-            {step.kind === 'error' && (
-              <div className="text-center py-16">
-                <h2 className="text-2xl font-bold text-white mb-4">Something went wrong</h2>
-                <p className="text-gray-400 mb-6">{step.message}</p>
-                <button
-                  type="button"
-                  onClick={() => setStep({ kind: 'email' })}
-                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors"
-                >
-                  Try again
-                </button>
-              </div>
-            )}
           </div>
 
           <p className="text-center text-gray-600 text-xs mt-6 font-mono">
@@ -289,20 +234,20 @@ function EmailView({
   firstName,
   lastName,
   email,
+  answers,
   onFirstName,
   onLastName,
   onEmail,
   onBack,
-  onSubmit,
 }: {
   firstName: string;
   lastName: string;
   email: string;
+  answers: QuizAnswers;
   onFirstName: (v: string) => void;
   onLastName: (v: string) => void;
   onEmail: (v: string) => void;
   onBack: () => void;
-  onSubmit: (e: React.FormEvent) => void;
 }) {
   return (
     <div>
@@ -329,11 +274,22 @@ function EmailView({
         </p>
       </div>
 
-      <form onSubmit={onSubmit} className="max-w-xl mx-auto space-y-4">
+      <form
+        method="POST"
+        action="/api/quiz-submit"
+        className="max-w-xl mx-auto space-y-4"
+      >
+        {/* Hidden inputs carry the 5 quiz answers so GHL captures them as custom fields */}
+        {QUIZ_QUESTIONS.map((q) => (
+          <input key={q.id} type="hidden" name={q.id} value={answers[q.id] || ''} />
+        ))}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-gray-400 text-sm mb-2 font-mono">First name</label>
+            <label htmlFor="firstName" className="block text-gray-400 text-sm mb-2 font-mono">First name</label>
             <input
+              id="firstName"
+              name="firstName"
               type="text"
               required
               value={firstName}
@@ -343,8 +299,10 @@ function EmailView({
             />
           </div>
           <div>
-            <label className="block text-gray-400 text-sm mb-2 font-mono">Last name</label>
+            <label htmlFor="lastName" className="block text-gray-400 text-sm mb-2 font-mono">Last name</label>
             <input
+              id="lastName"
+              name="lastName"
               type="text"
               value={lastName}
               onChange={(e) => onLastName(e.target.value)}
@@ -355,8 +313,10 @@ function EmailView({
         </div>
 
         <div>
-          <label className="block text-gray-400 text-sm mb-2 font-mono">Email</label>
+          <label htmlFor="email" className="block text-gray-400 text-sm mb-2 font-mono">Email</label>
           <input
+            id="email"
+            name="email"
             type="email"
             required
             value={email}
@@ -366,52 +326,12 @@ function EmailView({
           />
         </div>
 
-        <button
+        <input
           type="submit"
-          className="w-full px-6 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-lg transition-colors mt-4"
-        >
-          Get My Action Plan
-        </button>
+          value="Get My Action Plan"
+          className="w-full px-6 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-lg transition-colors mt-4 cursor-pointer"
+        />
       </form>
-    </div>
-  );
-}
-
-function DoneView({ firstName }: { firstName: string }) {
-  return (
-    <div className="text-center py-8">
-      <div className="mx-auto w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mb-6">
-        <svg className="w-8 h-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
-      </div>
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-        Check your inbox, {firstName || 'there'}.
-      </h2>
-      <p className="text-gray-400 text-lg max-w-xl mx-auto mb-10">
-        Your personalized AI action plan is on its way. It has 3 quick wins you can install this
-        week, tailored to your business.
-      </p>
-
-      <div className="max-w-xl mx-auto p-8 rounded-2xl bg-gradient-to-br from-blue-900/40 to-purple-900/40 border border-blue-500/20">
-        <h3 className="text-xl font-semibold text-white mb-3">Ready to go deeper?</h3>
-        <p className="text-gray-300 mb-6 leading-relaxed">
-          The $997 AI Assessment is a 45-minute deep-dive call, a full Impact/Effort Matrix for
-          your entire business, a 4-day implementation plan, and a 30-minute review call. Report
-          in 48 hours.
-        </p>
-        <a
-          href={STRIPE_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors"
-        >
-          Get Your $997 Assessment
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </a>
-      </div>
     </div>
   );
 }
