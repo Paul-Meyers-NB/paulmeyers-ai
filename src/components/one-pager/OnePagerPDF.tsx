@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Image,
+  Link,
   StyleSheet,
 } from '@react-pdf/renderer';
 import type { OnePagerData } from '@/lib/one-pager-data';
@@ -235,6 +236,7 @@ const styles = StyleSheet.create({
   contactValue: {
     color: colors.white,
     fontSize: 9,
+    textDecoration: 'none',
   },
   websitesWrap: {
     flexDirection: 'row',
@@ -279,6 +281,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 12,
+    textDecoration: 'none',
   },
   socialsRow: {
     flexDirection: 'row',
@@ -294,6 +297,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 8,
     borderRadius: 3,
+    textDecoration: 'none',
   },
   socialText: {
     fontSize: 8,
@@ -352,13 +356,20 @@ function PersonalBioPage({ data, logoSrc, headshotSrc }: Props) {
               {data.email ? (
                 <View style={styles.contactItem}>
                   <Text style={styles.contactLabel}>Email</Text>
-                  <Text style={styles.contactValue}>{data.email}</Text>
+                  <Link src={`mailto:${data.email}`} style={styles.contactValue}>
+                    {data.email}
+                  </Link>
                 </View>
               ) : null}
               {data.phone ? (
                 <View style={styles.contactItem}>
                   <Text style={styles.contactLabel}>Phone</Text>
-                  <Text style={styles.contactValue}>{data.phone}</Text>
+                  <Link
+                    src={`tel:${data.phone.replace(/[^0-9+]/g, '')}`}
+                    style={styles.contactValue}
+                  >
+                    {data.phone}
+                  </Link>
                 </View>
               ) : null}
             </View>
@@ -528,9 +539,13 @@ function TopsPage({ data, logoSrc }: Props) {
             <Text style={styles.contactFooterLabel}>Around the Web</Text>
             <View style={styles.websitesRow}>
               {data.websites.map((w, i) => (
-                <Text key={i} style={styles.websiteChipLarge}>
+                <Link
+                  key={i}
+                  src={w.startsWith('http') ? w : `https://${w}`}
+                  style={styles.websiteChipLarge}
+                >
                   {w}
-                </Text>
+                </Link>
               ))}
             </View>
           </>
@@ -541,10 +556,14 @@ function TopsPage({ data, logoSrc }: Props) {
             <Text style={styles.contactFooterLabel}>Follow Along</Text>
             <View style={styles.socialsRow}>
               {activeSocials.map((s) => (
-                <View key={s.key} style={styles.socialBadge}>
+                <Link
+                  key={s.key}
+                  src={socials[s.key] as string}
+                  style={styles.socialBadge}
+                >
                   <SocialIcon platform={s.key} size={10} fill={colors.black} />
                   <Text style={styles.socialText}>{s.label}</Text>
-                </View>
+                </Link>
               ))}
             </View>
           </>
