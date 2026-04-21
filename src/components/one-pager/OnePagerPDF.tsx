@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from '@react-pdf/renderer';
 import type { OnePagerData } from '@/lib/one-pager-data';
+import { SocialIcon } from './SocialIcons';
 
 const colors = {
   orange: '#F59E0B',
@@ -250,6 +251,54 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 10,
   },
+  contactFooterBlock: {
+    marginTop: 24,
+    paddingTop: 14,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  contactFooterLabel: {
+    fontFamily: 'Helvetica-Bold',
+    fontSize: 8,
+    color: colors.black,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginBottom: 6,
+  },
+  websitesRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginBottom: 12,
+  },
+  websiteChipLarge: {
+    fontFamily: 'Helvetica-Bold',
+    fontSize: 9,
+    color: colors.white,
+    backgroundColor: colors.black,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+  },
+  socialsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  socialBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    borderRadius: 3,
+  },
+  socialText: {
+    fontSize: 8,
+    color: colors.gray,
+  },
 });
 
 type Props = {
@@ -312,16 +361,6 @@ function PersonalBioPage({ data, logoSrc, headshotSrc }: Props) {
                   <Text style={styles.contactValue}>{data.phone}</Text>
                 </View>
               ) : null}
-            </View>
-          ) : null}
-
-          {data.websites && data.websites.length > 0 ? (
-            <View style={styles.websitesWrap}>
-              {data.websites.map((w, i) => (
-                <Text key={i} style={styles.websiteChip}>
-                  {w}
-                </Text>
-              ))}
             </View>
           ) : null}
 
@@ -442,6 +481,17 @@ function GainsPage({ data, logoSrc }: Props) {
 }
 
 function TopsPage({ data, logoSrc }: Props) {
+  const socialOrder: Array<{ key: 'facebook' | 'instagram' | 'tiktok' | 'youtube' | 'linkedin' | 'x'; label: string }> = [
+    { key: 'facebook', label: 'Facebook' },
+    { key: 'instagram', label: 'Instagram' },
+    { key: 'tiktok', label: 'TikTok' },
+    { key: 'youtube', label: 'YouTube' },
+    { key: 'linkedin', label: 'LinkedIn' },
+    { key: 'x', label: 'X' },
+  ];
+  const socials = data.socials || {};
+  const activeSocials = socialOrder.filter((s) => socials[s.key]);
+
   return (
     <Page size="LETTER" style={styles.page}>
       <Header name={data.name} logoSrc={logoSrc} />
@@ -470,6 +520,35 @@ function TopsPage({ data, logoSrc }: Props) {
       <View style={styles.topsBlock}>
         <Text style={styles.topsLabel}>Favorite BNI Story</Text>
         <Text style={styles.topsValue}>{data.tops.favoriteBniStory}</Text>
+      </View>
+
+      <View style={styles.contactFooterBlock}>
+        {data.websites && data.websites.length > 0 ? (
+          <>
+            <Text style={styles.contactFooterLabel}>Around the Web</Text>
+            <View style={styles.websitesRow}>
+              {data.websites.map((w, i) => (
+                <Text key={i} style={styles.websiteChipLarge}>
+                  {w}
+                </Text>
+              ))}
+            </View>
+          </>
+        ) : null}
+
+        {activeSocials.length > 0 ? (
+          <>
+            <Text style={styles.contactFooterLabel}>Follow Along</Text>
+            <View style={styles.socialsRow}>
+              {activeSocials.map((s) => (
+                <View key={s.key} style={styles.socialBadge}>
+                  <SocialIcon platform={s.key} size={10} fill={colors.black} />
+                  <Text style={styles.socialText}>{s.label}</Text>
+                </View>
+              ))}
+            </View>
+          </>
+        ) : null}
       </View>
 
       <Footer website={data.website} />

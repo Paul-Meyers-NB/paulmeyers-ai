@@ -30,6 +30,14 @@ export type OnePagerData = {
     idealPartner: string;
     favoriteBniStory: string;
   };
+  socials?: {
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    youtube?: string;
+    linkedin?: string;
+    x?: string;
+  };
 };
 
 export const PAUL_ONE_PAGER: OnePagerData = {
@@ -108,5 +116,13 @@ export const PAUL_ONE_PAGER: OnePagerData = {
       'BNI members whose clients are contractors and home service owners: accountants, bookkeepers, commercial lenders, business insurance brokers, equipment suppliers, commercial real estate agents, sign and wrap companies, payroll providers. When you meet a contractor complaining about marketing, phone, or pipeline, introduce them to me.',
     favoriteBniStory:
       'This chapter introduced me to Rick Harris of Work Boot Consulting. That single handshake has turned into co-hosted seminars, shared stages, and more referrals than I can count in both directions. Beyond the revenue that partnership has driven, BNI has given me a real peer, someone who gets it, someone who actually wants me to win. You cannot find that at a conference, a mastermind, or a LinkedIn message. The trust in this room is the shortcut my business needed, and Rick Harris is living proof.',
+  },
+  socials: {
+    facebook: 'https://www.facebook.com/meyerspaul',
+    instagram: 'https://www.instagram.com/originalpaulmeyers/',
+    tiktok: 'https://www.tiktok.com/@digitalprofessional',
+    youtube: 'https://www.youtube.com/@PAULMEYERSNorthBay',
+    linkedin: 'https://www.linkedin.com/in/paulmeyersnorthbay/',
+    x: 'https://x.com/paulmeyersnb',
   },
 };
