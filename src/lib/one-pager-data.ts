@@ -57,7 +57,7 @@ export const PAUL_ONE_PAGER: OnePagerData = {
   yearsInCity: 52,
   previousJobs:
     '19 years as General Manager of North Bay Toyota, running sales, service, parts, and finance for one of the largest employers in the city. Today Founder and CEO of PM Consulting Inc., helping contractors and home service businesses run systemized, accountable operations with AI doing the heavy lifting.',
-  spouse: 'Wife of 38 years',
+  spouse: 'Wife of 39 years',
   totalChildren: 3,
   burningDesire:
     'Help 100 contractors cross seven figures in annual revenue before I retire, and prove that you can build a world-class business from North Bay without ever leaving North Bay. When a local contractor wins, their family wins, their crew wins, and this town wins. That is the compounding I am chasing.',
@@ -74,7 +74,7 @@ export const PAUL_ONE_PAGER: OnePagerData = {
       'Give back to North Bay by mentoring 5 local business owners a year at no charge',
     ],
     accomplishments: [
-      'Married to my wife for 38 years, raised 3 children into adults I actually like spending time with',
+      'Married to my wife for 39 years, raised 3 children into adults I actually like spending time with',
       'Founded PM Consulting Inc. and scaled it to seven-figure trajectory serving contractors across Canada',
       'Averaged $37,000 per month in revenue over the first 8 months of 2026',
       'Co-host business growth seminars with Rick Harris of Work Boot Consulting',
