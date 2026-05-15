@@ -251,6 +251,11 @@ export default function RootLayout({
       >
         {children}
         <script
+          src="https://link.msgsndr.com/js/external-tracking.js"
+          data-tracking-id="tk_fad97cd1838d4d15b93d7a86f3b089e5"
+          async
+        />
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
